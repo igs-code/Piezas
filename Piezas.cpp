@@ -20,8 +20,12 @@
  * Constructor sets an empty board (default 3 rows, 4 columns) and 
  * specifies it is X's turn first
 **/
-Piezas::Piezas()
-{
+Piezas::Piezas() {
+    turn = X;
+    board.resize(BOARD_ROWS);
+    for (size_t i = 0; i < BOARD_ROWS; i++){
+        board[i].resize(BOARD_COLS, Blank);
+    }
 }
 
 /**
