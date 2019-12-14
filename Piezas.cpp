@@ -48,13 +48,7 @@ void Piezas::reset(){
  * Out of bounds coordinates return the Piece Invalid value
  * Trying to drop a piece where it cannot be placed loses the player's turn
 **/ 
-Piece Piezas::dropPiece(int column)
-{
-    /**
-     * T1: if column is full place, Piece returns Piece Blank value
-     * T2: out of bounds returns piece invalid value
-     * T3: non-empty place returns loss  of player's turn
-     **/
+Piece Piezas::dropPiece(int column){
     if (column < 0 || column >= BOARD_COLS){     //Out of Bounds
         if (turn == X){
             turn = O;
@@ -64,7 +58,7 @@ Piece Piezas::dropPiece(int column)
         }
         return Invalid;
     }
-    for( int i = 0; i < BOARD_ROWS; i++){     //Placing into blank place
+    for( size_t i = 0; i < BOARD_ROWS; i++){     //Placing into blank place
         if(board[i][column] == Blank) {
             board[i][column] = turn;
              if (turn == X){
@@ -89,12 +83,11 @@ Piece Piezas::dropPiece(int column)
  * Returns what piece is at the provided coordinates, or Blank if there
  * are no pieces there, or Invalid if the coordinates are out of bounds
 **/
-Piece Piezas::pieceAt(int row, int column)
-{
-    //T1: piece at location
-    //T2: out of bounds coordinates rtn invalid
-    //T3: if no pieces, return blank
-    return Blank;
+Piece Piezas::pieceAt(int row, int column){
+    if ( row >= BOARD_ROWS || column >= BOARD_COLS || row < 0 || column < 0){
+        return Invalid;
+    }
+    return board[row][column];
 }
 
 /**
@@ -106,8 +99,67 @@ Piece Piezas::pieceAt(int row, int column)
  * or horizontally. If both X's and O's have the same max number of pieces in a
  * line, it is a tie.
 **/
-Piece Piezas::gameState()
-{
-
+Piece Piezas::gameState(){
+    //board is not yet full
+    for( size_t i = 0; i < BOARD_ROWS; i++){
+        for(size_t j = 0; j < BOARD_COLS; j++){
+            if(board[i][j] == Blank){
+                return Invalid;
+            }
+        }
+    }
+    //max wins
+    int max_x = 1;
+    int max_o = 1;
+    //a vertical, column win
+    for(size_t i = 0; i < BOARD_COLS; i++){
+        int cur_x = 0;
+        int cur_o = 0;
+        for(size_t j = 0; j < BOARD_ROWS - 1; j++ ){
+            if (board[j][i] == board[j+1][i]){
+                if (board[j][i] == O){
+                    cur_o++;
+                    cur_x = 0;
+                }else  if (board[j][i] == X){
+                    cur_x++;
+                    cur_o = 0;
+                }
+            }
+            if (cur_o > max_o){
+                max_o = cur_o;
+            }
+            if (cur_x > max_x){
+                max_x = max_x;
+            }
+        }
+    }
+     //a hortizonal, row win
+     for(size_t i = 0; i < BOARD_ROWS; i++){
+        int cur_x = 0;
+        int cur_o = 0;
+        for(size_t j = 0; j < BOARD_COLS - 1; j++ ){
+            if (board[j][i] == board[j+1][i]){
+                if (board[j][i] == O){
+                    cur_o++;
+                    cur_x = 0;
+                }else  if (board[j][i] == X){
+                    cur_x++;
+                    cur_o = 0;
+                }
+            }
+            if (cur_o > max_o){
+                max_o = cur_o;
+            }
+            if (cur_x > max_x){
+                max_x = max_x;
+            }
+        }
+        if(max_x > max_o){
+            return X;
+        }
+         if(max_x < max_o){
+            return O;
+        }
+    }
     return Blank;
 }
