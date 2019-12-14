@@ -23,7 +23,7 @@
 Piezas::Piezas() {
     turn = X;
     board.resize(BOARD_ROWS);
-    for (size_t i = 0; i < BOARD_ROWS; i++){
+    for (int i = 0; i < BOARD_ROWS; i++){
         board[i].resize(BOARD_COLS, Blank);
     }
 }
@@ -33,8 +33,8 @@ Piezas::Piezas() {
  * same size as previously specified
 **/
 void Piezas::reset(){
-    for (size_t i = 0; i < BOARD_ROWS; i++){
-        for (size_t j = 0; i < BOARD_COLS; j++){
+    for (int i = 0; i < BOARD_ROWS; i++){
+        for (int j = 0; i < BOARD_COLS; j++){
             board[i][j] = Blank;
         }
     }
@@ -58,7 +58,7 @@ Piece Piezas::dropPiece(int column){
         }
         return Invalid;
     }
-    for( size_t i = 0; i < BOARD_ROWS; i++){     //Placing into blank place
+    for( int i = 0; i < BOARD_ROWS; i++){     //Placing into blank place
         if(board[i][column] == Blank) {
             board[i][column] = turn;
              if (turn == X){
@@ -101,8 +101,8 @@ Piece Piezas::pieceAt(int row, int column){
 **/
 Piece Piezas::gameState(){
     //board is not yet full
-    for( size_t i = 0; i < BOARD_ROWS; i++){
-        for(size_t j = 0; j < BOARD_COLS; j++){
+    for( int i = 0; i < BOARD_ROWS; i++){
+        for(int j = 0; j < BOARD_COLS; j++){
             if(board[i][j] == Blank){
                 return Invalid;
             }
@@ -112,10 +112,10 @@ Piece Piezas::gameState(){
     int max_x = 1;
     int max_o = 1;
     //a vertical, column win
-    for(size_t i = 0; i < BOARD_COLS; i++){
+    for(int i = 0; i < BOARD_COLS; i++){
         int cur_x = 0;
         int cur_o = 0;
-        for(size_t j = 0; j < BOARD_ROWS - 1; j++ ){
+        for(int j = 0; j < BOARD_ROWS - 1; j++ ){
             if (board[j][i] == board[j+1][i]){
                 if (board[j][i] == O){
                     cur_o++;
@@ -134,10 +134,10 @@ Piece Piezas::gameState(){
         }
     }
      //a hortizonal, row win
-     for(size_t i = 0; i < BOARD_ROWS; i++){
+     for(int i = 0; i < BOARD_ROWS; i++){
         int cur_x = 0;
         int cur_o = 0;
-        for(size_t j = 0; j < BOARD_COLS - 1; j++ ){
+        for(int j = 0; j < BOARD_COLS - 1; j++ ){
             if (board[j][i] == board[j+1][i]){
                 if (board[j][i] == O){
                     cur_o++;
