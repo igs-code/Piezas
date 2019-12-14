@@ -50,6 +50,38 @@ void Piezas::reset(){
 **/ 
 Piece Piezas::dropPiece(int column)
 {
+    /**
+     * T1: if column is full place, Piece returns Piece Blank value
+     * T2: out of bounds returns piece invalid value
+     * T3: non-empty place returns loss  of player's turn
+     **/
+    if (column < 0 || column >= BOARD_COLS){     //Out of Bounds
+        if (turn == X){
+            turn = O;
+        }
+        else{
+            turn = X;
+        }
+        return Invalid;
+    }
+    for( int i = 0; i < BOARD_ROWS; i++){     //Placing into blank place
+        if(board[i][column] == Blank) {
+            board[i][column] = turn;
+             if (turn == X){
+                turn = O;
+            }
+            else{
+                turn = X;
+            }
+            return board[i][column];
+        }
+    }
+    if (turn == X){      //placing into non-blank place
+        turn = O;
+    }
+    else{
+        turn = X;
+    }
     return Blank;
 }
 
@@ -59,6 +91,9 @@ Piece Piezas::dropPiece(int column)
 **/
 Piece Piezas::pieceAt(int row, int column)
 {
+    //T1: piece at location
+    //T2: out of bounds coordinates rtn invalid
+    //T3: if no pieces, return blank
     return Blank;
 }
 
@@ -73,5 +108,6 @@ Piece Piezas::pieceAt(int row, int column)
 **/
 Piece Piezas::gameState()
 {
+
     return Blank;
 }
