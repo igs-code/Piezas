@@ -32,8 +32,12 @@ Piezas::Piezas() {
  * Resets each board location to the Blank Piece value, with a board of the
  * same size as previously specified
 **/
-void Piezas::reset()
-{
+void Piezas::reset(){
+    for (size_t i = 0; i < BOARD_ROWS; i++){
+        for (size_t j = 0; i < BOARD_COLS; j++){
+            board[i][j] = Blank;
+        }
+    }
 }
 
 /**
